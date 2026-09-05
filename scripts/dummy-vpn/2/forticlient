@@ -1,0 +1,25 @@
+#!/bin/bash
+
+edit() {
+    echo    "====================="
+    echo    "Edit personal VPN profile: profile"
+    echo    "====================="
+    echo -n "Remote Gateway [current=example:10443]: "
+    read
+    echo -n "Authentication (1.prompt / 2.save / 3.disable) [current=save]: "
+    read
+    echo -n "  Username: [current=who]"
+    read
+    echo -n "Certificate Type (1.local (pkcs12) / 2.smartcard (pkcs11) / 3.disable) [current=disable]: "
+    read
+    echo    "DONE."
+}
+
+connect() {
+    echo "There is a VPN (profile) already running, please disconnect it first."
+}
+
+case "$2" in
+    edit) edit;;
+    connect) connect;;
+esac

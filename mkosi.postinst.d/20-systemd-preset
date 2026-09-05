@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -eux
+
+: "${RDP_RELAY_IP:?RDP_RELAY_IP is required}"
+
+mkdir -p "$BUILDROOT/etc/systemd/system-preset"
+
+printf 'enable rdp-relay@.service %s\n' "$RDP_RELAY_IP" > "$BUILDROOT/etc/systemd/system-preset/80-rdp-relay.preset"
+echo 'enable up-vpn.service' > "$BUILDROOT/etc/systemd/system-preset/80-up-vpn.preset"

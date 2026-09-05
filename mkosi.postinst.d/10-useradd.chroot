@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+useradd --create-home --user-group --shell /bin/bash --groups sudo,adm --password "$PASSWORD_HASH" router
+
+mkdir -p /home/router/.config/systemd/user/default.target.wants
+ln -s /etc/systemd/user/up-vpn.service /home/router/.config/systemd/user/default.target.wants/up-vpn.service
+
+mkdir -p /home/router/.config/up-vpn
+cat << EOF > /home/router/.config/up-vpn/env
+VPN_PROFILE=$VPN_PROFILE
+VPN_HOST=$VPN_HOST
+VPN_PORT=$VPN_PORT
+VPN_USER=$VPN_USER
+VPN_PASSWORD=$VPN_PASSWORD
+EOF
+chmod 700 /home/router/.config/up-vpn
+chmod 600 /home/router/.config/up-vpn/env
+
+chown router:router -R /home/router/.config

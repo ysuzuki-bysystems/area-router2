@@ -1,0 +1,48 @@
+#!/bin/bash
+
+edit() {
+    echo    "====================="
+    echo    "Create new VPN profile: profile"
+    echo    "====================="
+    echo -n "Remote Gateway: "
+    read
+    echo -n "Authentication (1.prompt / 2.save / 3.disable) [default=1]: "
+    read
+    echo -n "  Username: "
+    read
+    echo -n "Certificate Type (1.local (pkcs12) / 2.smartcard (pkcs11) / 3.disable) [current=disable]: "
+    read
+    echo    "DONE."
+}
+
+connect() {
+    echo -n "Password:"
+    read -s
+    echo
+    echo    "Connect VPN: profile"
+    echo    "Failed to get credentials from system's keystore."
+    echo    "Status: Connecting..."
+    echo    "====================="
+    echo    "Confirmation Required"
+    echo    "---------------------"
+    echo    "You are connecting to an untrusted server, which could put your confidential information at risk. Would you like to connect to this server?"
+    echo    ""
+    echo    "Hostname: example.com"
+    echo    ""
+    echo    "Reason: X509 verify certificate failed"
+    echo    ""
+    echo    "Certificate:"
+    echo    "        Subject name: /C=US/ST=Tokyo/L=City/O=My Conpany/CN=example.com"
+    echo    "        Fingerprint (SHA1): FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF"
+    echo    ""
+    echo    "====================="
+    echo -n "Confirm (y/n) [default=n]:Confirm (y/n) [default=n]:"
+    read
+    echo    "Status: Connected"
+    echo    "DONE."
+}
+
+case "$2" in
+    edit) edit;;
+    connect) connect;;
+esac

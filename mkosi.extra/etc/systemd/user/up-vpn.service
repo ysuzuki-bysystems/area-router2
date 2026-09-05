@@ -1,0 +1,12 @@
+[Unit]
+Description=VPN up
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/up-vpn
+EnvironmentFile=-%h/.config/up-vpn/env
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

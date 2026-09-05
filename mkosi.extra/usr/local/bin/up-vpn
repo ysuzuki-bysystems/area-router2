@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+i=0
+until forticlient vpn status; do
+    ((i++))
+    [[ i -lt 20 ]]
+    sleep 0.1
+done
+
+forticlient vpn status > /dev/null
+
+dir="$(dirname $0)"
+"$dir/edit-vpn"
+"$dir/connect-vpn"

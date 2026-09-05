@@ -1,0 +1,30 @@
+#!/usr/bin/expect
+
+set profile "$env(VPN_PROFILE)"
+set host "$env(VPN_HOST)"
+set port "$env(VPN_PORT)"
+set user "$env(VPN_USER)"
+
+spawn forticlient vpn edit $profile
+
+expect {
+    "Remote Gateway: " {
+        send "$host:$port\r"
+    }
+    "Remote Gateway " {
+        send "$host:$port\r"
+    }
+}
+
+expect "Authentication (1.prompt / 2.save / 3.disable) "
+send "2\r"
+
+expect "  Username:"
+send "$user\r"
+
+expect "Certificate Type (1.local (pkcs12) / 2.smartcard (pkcs11) / 3.disable) "
+send "\r"
+
+expect "DONE."
+
+expect eof

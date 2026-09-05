@@ -1,0 +1,6 @@
+mkosi.env
+mkosi.extra/usr/local/bin/smss
+mkosi.packages/forticlient_vpn_7.4.3.5411_amd64.deb
+build/
+mkosi.cache/
+mkosi.pkgcache/

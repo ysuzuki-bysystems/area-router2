@@ -1,0 +1,29 @@
+#!/usr/bin/expect
+
+set profile "$env(VPN_PROFILE)"
+set password "$env(VPN_PASSWORD)"
+
+spawn forticlient vpn connect area --password
+
+expect {
+    "There is a VPN (profile) already running, please disconnect it first." {
+        exit
+    }
+    "Password:" {
+        send "$password\r"
+    }
+}
+
+expect {
+    "Confirm (y/n) " {
+        send "y\r"
+        exp_continue
+    }
+    "Status: Connected" {
+    }
+    timeout {
+        exit 255
+    }
+}
+
+expect eof
