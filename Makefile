@@ -1,5 +1,6 @@
 SRCS := mkosi.conf
 SRCS += mkosi.env
+SRCS += mkosi.extra/etc/systemd/system/rdp-relay@.socket
 SRCS += mkosi.extra/etc/systemd/system/rdp-relay@.service
 SRCS += mkosi.extra/etc/systemd/user/up-vpn.service
 SRCS += mkosi.extra/usr/local/bin/smss
