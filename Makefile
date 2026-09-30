@@ -24,7 +24,8 @@ build: build/image.raw
 
 .PHONY: run
 run: build/image.raw
-	mkosi vm
+	./run $<
+#	mkosi vm
 
 build/image.raw: $(SRCS)
 	mkdir -p mkosi.cache/ mkosi.pkgcache/

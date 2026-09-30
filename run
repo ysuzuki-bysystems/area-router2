@@ -1,0 +1,28 @@
+#!/bin/bash
+
+disk=${1:?no disk}
+
+exec /usr/bin/qemu-system-x86_64 \
+    -machine type=q35,smm=on,hpet=off \
+    -smp 4 \
+    -m 1024M \
+    -object rng-random,filename=/dev/urandom,id=rng0 \
+    -device virtio-rng-pci,rng=rng0,id=rng-device0 \
+    -device virtio-balloon,free-page-reporting=on \
+    -no-user-config \
+    -cpu host \
+    -accel kvm \
+    -nographic \
+    -nodefaults \
+    -chardev stdio,mux=on,id=console,signal=off \
+    -device virtio-serial-pci,id=mkosi-virtio-serial-pci \
+    -device virtconsole,chardev=console \
+    -drive if=pflash,format=raw,readonly=on,file=/usr/share/edk2/x64/OVMF_CODE.secboot.4m.fd \
+    -drive file=/usr/share/edk2/x64/OVMF_VARS.4m.fd,if=pflash,format=raw \
+    -global ICH9-LPC.disable_s3=1 \
+    -global driver=cfi.pflash01,property=secure,value=on \
+    -blockdev driver=raw,node-name=root,discard=unmap,file.driver=file,file.filename=$disk,file.aio=io_uring,cache.direct=no,cache.no-flush=no \
+    -device virtio-blk-pci,drive=root,bootindex=1 \
+    -smbios 'type=11,value=io.systemd.stub.kernel-cmdline-extra=rw module_blacklist=vmw_vmci ip=enp0s1:any loglevel=4 console=hvc0 TERM=xterm-256color' \
+    -nic user,model=virtio-net-pci,hostfwd=tcp:0.0.0.0:3389-:3389 \
+    -snapshot
